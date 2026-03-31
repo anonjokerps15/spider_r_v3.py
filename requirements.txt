@@ -1,0 +1,10 @@
+flask
+flask-socketio
+flask-login
+flask-sqlalchemy
+celery
+redis
+eventlet
+requests
+beautifulsoup4
+jinja2
