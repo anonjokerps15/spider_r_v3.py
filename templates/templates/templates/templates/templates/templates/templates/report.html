@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>Report - Spider-R</title></head>
+<body>
+    <h1>Spider-R Scan Report</h1>
+    <p><strong>Target:</strong> {{ scan.target }}</p>
+    <p><strong>Date:</strong> {{ scan.start_time }}</p>
+    <p><strong>Duration:</strong> {% if scan.end_time %}{{ scan.end_time - scan.start_time }}{% else %}In progress{% endif %}</p>
+    <h2>Vulnerabilities ({{ vulns|length }})</h2>
+    <ul>
+    {% for v in vulns %}
+        <li><strong>{{ v.type }}</strong> ({{ v.severity }}) - {{ v.url }} (param: {{ v.param }}) - {{ v.description }}</li>
+    {% else %}
+        <li>No vulnerabilities found.</li>
+    {% endfor %}
+    </ul>
+    <a href="/scan/{{ scan.id }}">Back to Details</a> |
+    <a href="/">Dashboard</a>
+</body>
+</html>
