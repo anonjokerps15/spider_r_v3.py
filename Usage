@@ -1,0 +1,7 @@
+    Vulnerability Scan: Enter a target URL. The scanner will crawl the site and test for vulnerabilities.
+
+    Brute‑Force Scan: Enter a login page URL. The scanner will attempt to find valid credentials using wordlists.
+
+    Real‑time progress is shown in the dashboard.
+
+    Results are stored in an SQLite database and can be viewed as an HTML report.
