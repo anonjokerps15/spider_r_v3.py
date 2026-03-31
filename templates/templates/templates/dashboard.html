@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Spider-R</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .status-running { color: orange; }
+        .status-completed { color: green; }
+        .status-pending { color: blue; }
+        .progress-bar { width: 100px; background: #eee; display: inline-block; }
+        .progress-fill { background: #4caf50; height: 10px; width: 0%; }
+    </style>
+</head>
+<body>
+    <h1>Spider-R Dashboard</h1>
+    <p>Welcome, {{ current_user.username }} | <a href="/logout">Logout</a></p>
+    <a href="/scan/new">Start New Vulnerability Scan</a> |
+    <a href="/bruteforce/new">Start Brute‑Force Scan</a>
+    <h2>Your Scans</h2>
+    <table id="scans">
+        <thead>
+            <tr><th>ID</th><th>Target</th><th>Status</th><th>Progress</th><th>Start Time</th><th>End Time</th><th>Vulns</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+        {% for scan in scans %}
+        <tr data-scan-id="{{ scan.id }}">
+            <td>{{ scan.id[:8] }}</td>
+            <td>{{ scan.target }}</td>
+            <td class="status-{{ scan.status }}">{{ scan.status }}</td>
+            <td>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ scan.progress }}%;"></div>
+                </div> {{ scan.progress }}%
+            </td>
+            <td>{{ scan.start_time }}</td>
+            <td>{{ scan.end_time or '' }}</td>
+            <td>{{ scan.vuln_count or 0 }}</td>
+            <td>
+                <a href="/scan/{{ scan.id }}">Details</a> |
+                <a href="/report/{{ scan.id }}">Report</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        var socket = io();
+        socket.on('progress', function(data) {
+            var row = document.querySelector('tr[data-scan-id="' + data.scan_id + '"]');
+            if (row) {
+                var progressCell = row.cells[3];
+                var fill = progressCell.querySelector('.progress-fill');
+                fill.style.width = data.percent + '%';
+                progressCell.innerHTML = '<div class="progress-bar"><div class="progress-fill" style="width:' + data.percent + '%;"></div></div> ' + data.percent + '%';
+            }
+        });
+        {% for scan in scans %}
+        socket.emit('join', { scan_id: '{{ scan.id }}' });
+        {% endfor %}
+    </script>
+</body>
+</html>
