@@ -1,0 +1,30 @@
+Vulnerability Scan
+
+    Start the dashboard.
+
+    Click Start New Vulnerability Scan.
+
+    Enter a test target like http://testphp.vulnweb.com.
+
+    Watch real‑time progress and view the report when complete.
+
+Brute‑Force Scan
+
+    Click Start New Brute‑Force Scan.
+
+    Enter a login URL (e.g., http://testphp.vulnweb.com/login.php).
+
+    The scanner will try the wordlist combinations and report any valid credentials.
+
+Using Kali Wordlists
+bash
+
+export BRUTE_USERLIST=/usr/share/wordlists/seclists/Usernames/top-usernames-shortlist.txt
+export BRUTE_PASSLIST=/usr/share/wordlists/seclists/Passwords/Common-Credentials/10k-most-common.txt
+python dashboard.py
+
+🧪 Testing with a Vulnerable Site
+
+    Use DVWA (Damn Vulnerable Web Application) or WebGoat locally.
+
+    Never scan sites you don’t own.
