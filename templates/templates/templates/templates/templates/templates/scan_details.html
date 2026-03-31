@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Scan Details - Spider-R</title></head>
+<body>
+    <h1>Scan Details</h1>
+    <p><strong>Target:</strong> {{ scan.target }}</p>
+    <p><strong>Status:</strong> {{ scan.status }}</p>
+    <p><strong>Started:</strong> {{ scan.start_time }}</p>
+    <p><strong>Ended:</strong> {{ scan.end_time or 'Still running' }}</p>
+    <h2>Vulnerabilities ({{ vulns|length }})</h2>
+    <ul>
+    {% for v in vulns %}
+        <li><strong>{{ v.type }}</strong> ({{ v.severity }}) - {{ v.url }} (param: {{ v.param }}) - {{ v.description }}</li>
+    {% else %}
+        <li>No vulnerabilities found.</li>
+    {% endfor %}
+    </ul>
+    <a href="/report/{{ scan.id }}">View HTML Report</a> |
+    <a href="/">Back to Dashboard</a>
+</body>
+</html>
