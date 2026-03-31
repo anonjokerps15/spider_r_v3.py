@@ -1,0 +1,10 @@
+Start Redis:
+redis-server
+
+Start Celery worker:
+celery -A celery_app worker --loglevel=info
+
+Start the Flask dashboard:
+python dashboard.py
+
+###################|Open your browser at http://127.0.0.1:5000. Register a user and start scanning########################
